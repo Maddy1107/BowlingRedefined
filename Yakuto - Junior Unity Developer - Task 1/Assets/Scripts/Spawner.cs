@@ -11,6 +11,8 @@ public class Spawner : MonoBehaviour
     [SerializeField] private GameObject ballPrefab;
     [SerializeField] private GameObject pinContainer;
 
+    [SerializeField] private Camera cam;
+
     private List<GameObject> pins = new List<GameObject>();
 
     private void OnEnable()
@@ -18,11 +20,19 @@ public class Spawner : MonoBehaviour
         GameEvents.onGameStateChanged += Prepare;
     }
 
+    private void Start()
+    {
+        cam = Camera.main;
+    }
+
+    //Instantiate all the prefabs
     public void Prepare(GameStates state)
     {
         if(state == GameStates.levelStarting)
         {
-            Instantiate(ballPrefab, new Vector3(0, 1, 0), Quaternion.identity);
+            GameObject ball = Instantiate(ballPrefab, new Vector3(0, 1, 0), Quaternion.identity);
+
+            cam.gameObject.GetComponent<FollowBall>().target = ball.gameObject;
 
             var ground = Instantiate(groundPrefab, transform.position, Quaternion.identity);
 

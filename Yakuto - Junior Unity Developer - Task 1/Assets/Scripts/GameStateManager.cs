@@ -11,7 +11,7 @@ public class GameStateManager : MonoBehaviour
     //Setting the game state to the first and initial state.
     private void Start()
     {
-        ChangeGameState(GameStates.levelStarting);
+        ChangeGameState(GameStates.menu);
     }
 
     //Sending the gamestate to all the subscribers.

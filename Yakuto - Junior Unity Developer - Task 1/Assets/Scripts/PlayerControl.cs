@@ -13,9 +13,10 @@ public class PlayerControl : MonoBehaviour
         GameEvents.onGameStateChanged += Initialize;
     }
 
-    private void Initialize(GameStates obj)
+    private void Initialize(GameStates state)
     {
-        throw new NotImplementedException();
+        rb.isKinematic = false;
+        canMove = state == GameStates.inProgress;
     }
 
     void Start()
@@ -54,7 +55,12 @@ public class PlayerControl : MonoBehaviour
         // We check if the object we collided with has a name called "PIN".
         if (collisionInfo.collider.CompareTag("Pin"))
         {
-            FindObjectOfType<GameManager>().AddScore();
+            LevelDataTracker.instance.ChangeScore(10);
         }
+    }
+
+    private void OnDisable()
+    {
+        GameEvents.onGameStateChanged -= Initialize;
     }
 }
